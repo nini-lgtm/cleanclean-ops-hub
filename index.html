@@ -87,10 +87,10 @@
   .side-brand{font-size:1.25rem;font-weight:700;letter-spacing:.06em;line-height:1.1;}
   .side-sub{font-size:.6rem;color:rgba(255,255,255,.7);letter-spacing:.22em;margin-top:2px;}
   .side-tag{
-    display:inline-block;margin-top:10px;
-    background:rgba(255,255,255,.15);color:white;
-    padding:3px 10px;border-radius:10px;
-    font-size:.66rem;letter-spacing:.1em;font-weight:500;
+    display:inline-block;margin-top:12px;
+    background:rgba(255,255,255,.18);color:white;
+    padding:5px 14px;border-radius:12px;
+    font-size:.88rem;letter-spacing:.12em;font-weight:600;
   }
 
   .side-nav{flex:1;padding:14px 10px;overflow-y:auto;}
@@ -254,11 +254,20 @@
       </div>
 
       <nav class="side-nav">
-        <div class="side-section">儀表板</div>
+        <a class="nav-item" data-action="home">
+          <span class="nav-icon">🏠</span>
+          <span>首頁</span>
+        </a>
 
-        <a class="nav-item" data-dash="inventory">
-          <span class="nav-icon">📦</span>
-          <span>庫存 · 營運部</span>
+        <div class="side-section" style="margin-top:14px;">儀表板</div>
+
+        <a class="nav-item" data-dash="operations">
+          <span class="nav-icon">📈</span>
+          <span>淨淨總表</span>
+        </a>
+        <a class="nav-item" data-dash="channel">
+          <span class="nav-icon">🏪</span>
+          <span>實體通路</span>
         </a>
         <a class="nav-item" data-dash="oem">
           <span class="nav-icon">🏭</span>
@@ -266,15 +275,11 @@
         </a>
         <a class="nav-item" data-dash="procurement">
           <span class="nav-icon">🛒</span>
-          <span>採購</span>
+          <span>採購表</span>
         </a>
-        <a class="nav-item" data-dash="channel">
-          <span class="nav-icon">🏪</span>
-          <span>實體通路</span>
-        </a>
-        <a class="nav-item" data-dash="operations">
-          <span class="nav-icon">📈</span>
-          <span>營運</span>
+        <a class="nav-item" data-dash="inventory">
+          <span class="nav-icon">📦</span>
+          <span>庫存表</span>
         </a>
 
         <div class="side-section" style="margin-top:18px;">外部連結</div>
@@ -312,12 +317,17 @@
         <div class="welcome" id="welcome">
           <img class="welcome-logo" src="logo.png" alt="淨淨">
           <h1>淨淨 · 營運部管理中心</h1>
-          <p>五大儀表板一站式整合。請從左側選單,或下方快速入口開始。</p>
+          <p>儀表板整合。請從左側選單,或下方快速入口開始。</p>
           <div class="welcome-cards">
-            <div class="wc-card" data-dash="inventory">
-              <div class="wc-icon">📦</div>
-              <div class="wc-title">庫存 · 營運部</div>
-              <div class="wc-sub">效期 / 批號 / 詳細庫存</div>
+            <div class="wc-card" data-dash="operations">
+              <div class="wc-icon">📈</div>
+              <div class="wc-title">淨淨總表</div>
+              <div class="wc-sub">月/週/通路營收</div>
+            </div>
+            <div class="wc-card" data-dash="channel">
+              <div class="wc-icon">🏪</div>
+              <div class="wc-title">實體通路</div>
+              <div class="wc-sub">經銷特約 / 報價</div>
             </div>
             <div class="wc-card" data-dash="oem">
               <div class="wc-icon">🏭</div>
@@ -326,18 +336,13 @@
             </div>
             <div class="wc-card" data-dash="procurement">
               <div class="wc-icon">🛒</div>
-              <div class="wc-title">採購</div>
+              <div class="wc-title">採購表</div>
               <div class="wc-sub">水位 / 再訂購點 / 贈品</div>
             </div>
-            <div class="wc-card" data-dash="channel">
-              <div class="wc-icon">🏪</div>
-              <div class="wc-title">實體通路</div>
-              <div class="wc-sub">經銷特約 / 報價</div>
-            </div>
-            <div class="wc-card" data-dash="operations">
-              <div class="wc-icon">📈</div>
-              <div class="wc-title">營運</div>
-              <div class="wc-sub">月/週/通路營收</div>
+            <div class="wc-card" data-dash="inventory">
+              <div class="wc-icon">📦</div>
+              <div class="wc-title">庫存表</div>
+              <div class="wc-sub">營運部 · 效期 / 批號</div>
             </div>
           </div>
         </div>
@@ -364,11 +369,11 @@
 const PASSWORD = 'sky42588782';
 
 const DASHBOARDS = {
-  inventory:   { title:'庫存 · 營運部', icon:'📦', url:'https://nini-lgtm.github.io/cleanclean-inventory/?view=operations' },
-  oem:         { title:'OEM 儀表板',    icon:'🏭', url:'https://nini-lgtm.github.io/cleanclean-oem/' },
-  procurement: { title:'採購儀表板',    icon:'🛒', url:'https://nini-lgtm.github.io/cleanclean-procurement/' },
-  channel:     { title:'實體通路儀表板',icon:'🏪', url:'https://nini-lgtm.github.io/jj-quote/' },
-  operations:  { title:'營運儀表板',    icon:'📈', url:'https://nini-lgtm.github.io/cleanclean-operations/' },
+  operations:  { title:'淨淨總表',      icon:'📈', url:'https://nini-lgtm.github.io/cleanclean-operations/' },
+  channel:     { title:'實體通路',      icon:'🏪', url:'https://nini-lgtm.github.io/jj-quote/' },
+  oem:         { title:'OEM',          icon:'🏭', url:'https://nini-lgtm.github.io/cleanclean-oem/' },
+  procurement: { title:'採購表',        icon:'🛒', url:'https://nini-lgtm.github.io/cleanclean-procurement/' },
+  inventory:   { title:'庫存表 · 營運部', icon:'📦', url:'https://nini-lgtm.github.io/cleanclean-inventory/?view=operations' },
 };
 
 /* ===== 登入 ===== */
@@ -443,13 +448,43 @@ function showDashboard(key){
   iframes.forEach(f => f.classList.toggle('active', f === target));
 }
 
-/* 側邊欄點擊 */
+/* 回首頁 */
+function showHome(){
+  currentKey = null;
+  titleEl.textContent = '管理中心';
+  iconEl.textContent  = '🏠';
+  extBtn.style.display = 'none';
+  reloadBtn.style.display = 'none';
+
+  // 側邊欄：清除儀表板 active，首頁高亮
+  document.querySelectorAll('.nav-item[data-dash]').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-item[data-action="home"]').forEach(el => el.classList.add('active'));
+
+  // 隱藏所有 iframe，顯示歡迎頁
+  iframes.forEach(f => f.classList.remove('active'));
+  loading.classList.add('hide');
+  welcome.classList.remove('hide');
+}
+
+/* 側邊欄 - 儀表板點擊 */
 document.querySelectorAll('.nav-item[data-dash]').forEach(el => {
   el.addEventListener('click', e => {
     e.preventDefault();
     showDashboard(el.dataset.dash);
   });
 });
+
+/* 側邊欄 - 首頁點擊 */
+document.querySelectorAll('.nav-item[data-action="home"]').forEach(el => {
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    showHome();
+  });
+});
+
+/* 側邊欄 LOGO 區也可點回首頁 */
+document.querySelector('.side-head').style.cursor = 'pointer';
+document.querySelector('.side-head').addEventListener('click', showHome);
 
 /* 歡迎卡片點擊 */
 document.querySelectorAll('.wc-card[data-dash]').forEach(el => {
