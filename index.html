@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Clean ｜ 營運部專屬</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* 淨淨色系 — 以 LOGO 天青藍為主，全部偏藍，不偏綠 */
+    --mint:#6BC9D6; --mint-light:#EAF6F9; --mint-mid:#B6E1EB;
+    --green-dark:#3FA5C2; --green-deep:#2481A3;  /* 名稱保留，色值改為偏藍青 */
+    --bg:#F4FAFC; --card:#FFFFFF; --border:#D9EDF3;
+    --text:#1F2937; --text-mid:#6B7280; --text-light:#9CA3AF;
+    --sidebar-w:240px;
+    --shadow:0 6px 24px rgba(36,129,163,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{font-family:'Noto Sans TC',-apple-system,sans-serif;background:var(--bg);color:var(--text);overflow:hidden;}
+
+  /* ============ 登入頁 ============ */
+  #loginScreen{
+    position:fixed;inset:0;z-index:1000;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,#2481A3 0%,#3FA5C2 45%,#6BC9D6 100%);
+  }
+  .login-card{
+    background:white;border-radius:24px;padding:48px 40px;
+    box-shadow:0 30px 80px rgba(0,0,0,.2);
+    width:min(420px,90vw);
+    text-align:center;
+  }
+  .login-logo{width:80px;height:auto;margin:0 auto 20px;display:block;}
+  .login-brand{font-size:1.6rem;font-weight:700;color:var(--green-deep);letter-spacing:.08em;margin-bottom:6px;}
+  .login-sub{font-size:.72rem;color:var(--text-mid);letter-spacing:.22em;margin-bottom:8px;font-weight:500;}
+  .login-title{font-size:.95rem;color:var(--text);font-weight:600;margin-bottom:32px;}
+  .login-form{display:flex;flex-direction:column;gap:14px;}
+  .login-input{
+    width:100%;padding:14px 18px;
+    border:2px solid var(--border);border-radius:14px;
+    font-size:1rem;font-family:inherit;
+    outline:none;transition:all .2s;
+    text-align:center;letter-spacing:.15em;
+  }
+  .login-input:focus{border-color:var(--mint);background:var(--mint-light);}
+  .login-btn{
+    width:100%;padding:14px;
+    background:linear-gradient(135deg,var(--green-deep),var(--mint));
+    color:white;border:none;border-radius:14px;
+    font-size:1rem;font-weight:600;font-family:inherit;
+    cursor:pointer;transition:transform .15s,box-shadow .15s;
+    letter-spacing:.05em;
+  }
+  .login-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(26,133,151,.3);}
+  .login-btn:active{transform:translateY(0);}
+  .login-error{
+    display:none;color:#991B1B;background:#FEF2F2;
+    padding:10px;border-radius:10px;font-size:.85rem;
+    border:1px solid #FECACA;
+  }
+  .login-error.show{display:block;}
+  .login-footer{
+    margin-top:24px;font-size:.7rem;color:var(--text-light);
+    letter-spacing:.05em;
+  }
+
+  /* ============ 主介面 ============ */
+  #appScreen{display:none;height:100vh;}
+  .layout{display:flex;height:100vh;}
+
+  /* 側邊欄 */
+  .sidebar{
+    width:var(--sidebar-w);flex-shrink:0;
+    background:linear-gradient(180deg,#2481A3 0%,#3FA5C2 55%,#5EBCD0 100%);
+    color:white;
+    display:flex;flex-direction:column;
+    box-shadow:2px 0 20px rgba(36,129,163,.18);
+    z-index:10;
+  }
+  .side-head{padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,.12);}
+  .side-logo-row{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+  .side-logo img{width:40px;height:auto;display:block;filter:drop-shadow(0 3px 8px rgba(0,0,0,.2));}
+  .side-brand{font-size:1.25rem;font-weight:700;letter-spacing:.06em;line-height:1.1;}
+  .side-sub{font-size:.6rem;color:rgba(255,255,255,.7);letter-spacing:.22em;margin-top:2px;}
+  .side-tag{
+    display:inline-block;margin-top:10px;
+    background:rgba(255,255,255,.15);color:white;
+    padding:3px 10px;border-radius:10px;
+    font-size:.66rem;letter-spacing:.1em;font-weight:500;
+  }
+
+  .side-nav{flex:1;padding:14px 10px;overflow-y:auto;}
+  .side-section{
+    font-size:.65rem;font-weight:600;letter-spacing:.15em;
+    color:rgba(255,255,255,.55);padding:8px 12px 6px;
+    text-transform:uppercase;
+  }
+  .nav-item{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 12px;margin:2px 0;border-radius:10px;
+    color:rgba(255,255,255,.85);cursor:pointer;
+    font-size:.88rem;font-weight:500;
+    transition:background .15s,color .15s;
+    user-select:none;
+    text-decoration:none;
+  }
+  .nav-item:hover{background:rgba(255,255,255,.1);color:white;}
+  .nav-item.active{
+    background:rgba(255,255,255,.22);color:white;
+    font-weight:600;
+    box-shadow:inset 3px 0 0 #B8E8EF;
+  }
+  .nav-icon{font-size:1.05rem;width:20px;text-align:center;}
+  .nav-ext::after{content:"↗";margin-left:auto;opacity:.6;font-size:.85rem;}
+
+  .side-foot{
+    padding:14px 16px;border-top:1px solid rgba(255,255,255,.12);
+    font-size:.68rem;color:rgba(255,255,255,.5);letter-spacing:.05em;
+  }
+  .logout-btn{
+    display:block;width:100%;margin-bottom:8px;
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+    color:white;padding:8px;border-radius:8px;
+    font-size:.78rem;font-family:inherit;cursor:pointer;
+    transition:background .15s;
+  }
+  .logout-btn:hover{background:rgba(255,255,255,.18);}
+
+  /* 主內容 */
+  .main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative;}
+  .topbar{
+    height:52px;flex-shrink:0;
+    background:white;border-bottom:1px solid var(--border);
+    display:flex;align-items:center;padding:0 22px;gap:14px;
+    box-shadow:0 1px 3px rgba(0,0,0,.03);
+  }
+  .topbar-title{
+    font-size:.95rem;font-weight:600;color:var(--green-deep);
+    display:flex;align-items:center;gap:8px;
+  }
+  .topbar-title .tt-icon{font-size:1.1rem;}
+  .topbar-spacer{flex:1;}
+  .topbar-actions{display:flex;gap:8px;align-items:center;}
+  .tb-btn{
+    background:var(--mint-light);color:var(--green-deep);
+    border:1px solid var(--mint-mid);border-radius:8px;
+    padding:6px 12px;font-size:.78rem;font-family:inherit;font-weight:500;
+    cursor:pointer;transition:background .15s;text-decoration:none;
+    display:inline-flex;align-items:center;gap:4px;
+  }
+  .tb-btn:hover{background:var(--mint-mid);}
+
+  .iframe-wrap{flex:1;position:relative;background:var(--bg);overflow:hidden;}
+  .dash-iframe{
+    position:absolute;inset:0;
+    width:100%;height:100%;border:0;background:white;
+    display:none;
+  }
+  .dash-iframe.active{display:block;}
+
+  /* 載入遮罩 */
+  .loading{
+    position:absolute;inset:0;background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    flex-direction:column;gap:16px;z-index:5;
+  }
+  .loading.hide{display:none;}
+  .spinner{
+    width:40px;height:40px;border-radius:50%;
+    border:3px solid var(--mint-light);
+    border-top-color:var(--mint);
+    animation:spin .8s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .loading-text{color:var(--text-mid);font-size:.85rem;letter-spacing:.05em;}
+
+  /* 歡迎頁 */
+  .welcome{
+    position:absolute;inset:0;padding:40px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:28px;text-align:center;
+  }
+  .welcome.hide{display:none;}
+  .welcome-logo{width:100px;filter:drop-shadow(0 8px 20px rgba(26,133,151,.2));}
+  .welcome h1{
+    font-size:1.6rem;color:var(--green-deep);font-weight:700;letter-spacing:.05em;
+  }
+  .welcome p{color:var(--text-mid);font-size:.9rem;max-width:500px;line-height:1.7;}
+  .welcome-cards{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:14px;max-width:720px;width:100%;margin-top:8px;
+  }
+  .wc-card{
+    background:white;border:1px solid var(--border);border-radius:14px;
+    padding:18px 14px;cursor:pointer;transition:all .2s;
+    box-shadow:var(--shadow);
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+  }
+  .wc-card:hover{
+    border-color:var(--mint);transform:translateY(-3px);
+    box-shadow:0 12px 28px rgba(26,133,151,.15);
+  }
+  .wc-icon{font-size:1.8rem;}
+  .wc-title{font-size:.9rem;font-weight:600;color:var(--green-deep);}
+  .wc-sub{font-size:.7rem;color:var(--text-light);}
+
+  /* 小螢幕 */
+  @media (max-width:768px){
+    :root{--sidebar-w:72px;}
+    .side-brand,.side-sub,.side-tag,.nav-item span:not(.nav-icon),.side-section,.side-foot,.logout-btn{display:none;}
+    .nav-item{justify-content:center;padding:12px;}
+    .side-head{padding:16px 8px;border-bottom-color:rgba(255,255,255,.15);}
+    .side-logo-row{justify-content:center;}
+    .side-logo img{width:32px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 登入頁 ============ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <img class="login-logo" src="logo.png" alt="淨淨">
+    <div class="login-brand">淨淨</div>
+    <div class="login-sub">CLEAN CLEAN</div>
+    <div class="login-title">營運部專屬 · 管理中心</div>
+    <form class="login-form" id="loginForm" autocomplete="off">
+      <input type="password" id="pwInput" class="login-input" placeholder="請輸入密碼" required autofocus>
+      <div class="login-error" id="loginError">密碼錯誤,請再試一次</div>
+      <button type="submit" class="login-btn">登 入</button>
+    </form>
+    <div class="login-footer">© Clean Clean Operations Team</div>
+  </div>
+</div>
+
+<!-- ============ 主介面 ============ -->
+<div id="appScreen">
+  <div class="layout">
+    <!-- 側邊欄 -->
+    <aside class="sidebar">
+      <div class="side-head">
+        <div class="side-logo-row">
+          <div class="side-logo"><img src="logo.png" alt="淨淨"></div>
+          <div>
+            <div class="side-brand">淨淨</div>
+            <div class="side-sub">CLEAN CLEAN</div>
+          </div>
+        </div>
+        <div class="side-tag">營運部專屬</div>
+      </div>
+
+      <nav class="side-nav">
+        <div class="side-section">儀表板</div>
+
+        <a class="nav-item" data-dash="inventory">
+          <span class="nav-icon">📦</span>
+          <span>庫存 · 營運部</span>
+        </a>
+        <a class="nav-item" data-dash="oem">
+          <span class="nav-icon">🏭</span>
+          <span>OEM</span>
+        </a>
+        <a class="nav-item" data-dash="procurement">
+          <span class="nav-icon">🛒</span>
+          <span>採購</span>
+        </a>
+        <a class="nav-item" data-dash="channel">
+          <span class="nav-icon">🏪</span>
+          <span>實體通路</span>
+        </a>
+        <a class="nav-item" data-dash="operations">
+          <span class="nav-icon">📈</span>
+          <span>營運</span>
+        </a>
+
+        <div class="side-section" style="margin-top:18px;">外部連結</div>
+        <a class="nav-item nav-ext" href="https://nini-lgtm.github.io/cleanclean-inventory/" target="_blank" rel="noopener">
+          <span class="nav-icon">🔗</span>
+          <span>完整庫存(全公司)</span>
+        </a>
+      </nav>
+
+      <div class="side-foot">
+        <button class="logout-btn" id="logoutBtn">🔒 登出</button>
+        <div>© Clean Clean · Ops</div>
+      </div>
+    </aside>
+
+    <!-- 主內容 -->
+    <main class="main">
+      <div class="topbar">
+        <div class="topbar-title">
+          <span class="tt-icon" id="currentIcon">🏠</span>
+          <span id="currentTitle">管理中心</span>
+        </div>
+        <div class="topbar-spacer"></div>
+        <div class="topbar-actions">
+          <a id="openExternal" class="tb-btn" href="#" target="_blank" rel="noopener" style="display:none;">
+            <span>在新分頁開啟</span>
+            <span>↗</span>
+          </a>
+          <button class="tb-btn" id="reloadBtn" style="display:none;">🔄 重新整理</button>
+        </div>
+      </div>
+
+      <div class="iframe-wrap">
+        <!-- 歡迎頁 -->
+        <div class="welcome" id="welcome">
+          <img class="welcome-logo" src="logo.png" alt="淨淨">
+          <h1>淨淨 · 營運部管理中心</h1>
+          <p>五大儀表板一站式整合。請從左側選單,或下方快速入口開始。</p>
+          <div class="welcome-cards">
+            <div class="wc-card" data-dash="inventory">
+              <div class="wc-icon">📦</div>
+              <div class="wc-title">庫存 · 營運部</div>
+              <div class="wc-sub">效期 / 批號 / 詳細庫存</div>
+            </div>
+            <div class="wc-card" data-dash="oem">
+              <div class="wc-icon">🏭</div>
+              <div class="wc-title">OEM</div>
+              <div class="wc-sub">客戶營收 / 採購 / BOM</div>
+            </div>
+            <div class="wc-card" data-dash="procurement">
+              <div class="wc-icon">🛒</div>
+              <div class="wc-title">採購</div>
+              <div class="wc-sub">水位 / 再訂購點 / 贈品</div>
+            </div>
+            <div class="wc-card" data-dash="channel">
+              <div class="wc-icon">🏪</div>
+              <div class="wc-title">實體通路</div>
+              <div class="wc-sub">經銷特約 / 報價</div>
+            </div>
+            <div class="wc-card" data-dash="operations">
+              <div class="wc-icon">📈</div>
+              <div class="wc-title">營運</div>
+              <div class="wc-sub">月/週/通路營收</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 載入中 -->
+        <div class="loading hide" id="loading">
+          <div class="spinner"></div>
+          <div class="loading-text">載入儀表板中…</div>
+        </div>
+
+        <!-- iframe 池(每個儀表板一個,切換靠 display) -->
+        <iframe class="dash-iframe" data-key="inventory"    title="庫存儀表板(營運部)"></iframe>
+        <iframe class="dash-iframe" data-key="oem"          title="OEM 儀表板"></iframe>
+        <iframe class="dash-iframe" data-key="procurement"  title="採購儀表板"></iframe>
+        <iframe class="dash-iframe" data-key="channel"      title="實體通路儀表板"></iframe>
+        <iframe class="dash-iframe" data-key="operations"   title="營運儀表板"></iframe>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+/* ===== 設定 ===== */
+const PASSWORD = 'sky42588782';
+
+const DASHBOARDS = {
+  inventory:   { title:'庫存 · 營運部', icon:'📦', url:'https://nini-lgtm.github.io/cleanclean-inventory/?view=operations' },
+  oem:         { title:'OEM 儀表板',    icon:'🏭', url:'https://nini-lgtm.github.io/cleanclean-oem/' },
+  procurement: { title:'採購儀表板',    icon:'🛒', url:'https://nini-lgtm.github.io/cleanclean-procurement/' },
+  channel:     { title:'實體通路儀表板',icon:'🏪', url:'https://nini-lgtm.github.io/jj-quote/' },
+  operations:  { title:'營運儀表板',    icon:'📈', url:'https://nini-lgtm.github.io/cleanclean-operations/' },
+};
+
+/* ===== 登入 ===== */
+const loginScreen = document.getElementById('loginScreen');
+const appScreen   = document.getElementById('appScreen');
+const loginForm   = document.getElementById('loginForm');
+const pwInput     = document.getElementById('pwInput');
+const loginError  = document.getElementById('loginError');
+
+loginForm.addEventListener('submit', e => {
+  e.preventDefault();
+  if (pwInput.value === PASSWORD) {
+    loginScreen.style.display = 'none';
+    appScreen.style.display = 'block';
+    loginError.classList.remove('show');
+    pwInput.value = '';
+  } else {
+    loginError.classList.add('show');
+    pwInput.select();
+  }
+});
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  // 登出 = 重載頁面 (每次都要輸入密碼,所以沒存任何 session)
+  location.reload();
+});
+
+/* ===== 儀表板切換 ===== */
+const iframes = document.querySelectorAll('.dash-iframe');
+const welcome = document.getElementById('welcome');
+const loading = document.getElementById('loading');
+const titleEl = document.getElementById('currentTitle');
+const iconEl  = document.getElementById('currentIcon');
+const extBtn  = document.getElementById('openExternal');
+const reloadBtn = document.getElementById('reloadBtn');
+let currentKey = null;
+
+function showDashboard(key){
+  const cfg = DASHBOARDS[key];
+  if (!cfg) return;
+  currentKey = key;
+
+  // 更新頂部列
+  titleEl.textContent = cfg.title;
+  iconEl.textContent  = cfg.icon;
+  extBtn.href = cfg.url;
+  extBtn.style.display = 'inline-flex';
+  reloadBtn.style.display = 'inline-flex';
+
+  // 更新側邊欄 active
+  document.querySelectorAll('.nav-item[data-dash]').forEach(el => {
+    el.classList.toggle('active', el.dataset.dash === key);
+  });
+
+  // 隱藏歡迎頁
+  welcome.classList.add('hide');
+
+  // 找對應 iframe
+  const target = Array.from(iframes).find(f => f.dataset.key === key);
+  if (!target) return;
+
+  // 若尚未載入,先顯示 loading
+  if (!target.src) {
+    loading.classList.remove('hide');
+    target.addEventListener('load', () => loading.classList.add('hide'), { once:true });
+    target.src = cfg.url;
+  } else {
+    loading.classList.add('hide');
+  }
+
+  // 切換顯示
+  iframes.forEach(f => f.classList.toggle('active', f === target));
+}
+
+/* 側邊欄點擊 */
+document.querySelectorAll('.nav-item[data-dash]').forEach(el => {
+  el.addEventListener('click', e => {
+    e.preventDefault();
+    showDashboard(el.dataset.dash);
+  });
+});
+
+/* 歡迎卡片點擊 */
+document.querySelectorAll('.wc-card[data-dash]').forEach(el => {
+  el.addEventListener('click', () => showDashboard(el.dataset.dash));
+});
+
+/* 重新整理 */
+reloadBtn.addEventListener('click', () => {
+  if (!currentKey) return;
+  const target = Array.from(iframes).find(f => f.dataset.key === currentKey);
+  if (target) {
+    loading.classList.remove('hide');
+    target.addEventListener('load', () => loading.classList.add('hide'), { once:true });
+    target.src = target.src; // 重載
+  }
+});
+</script>
+</body>
+</html>
