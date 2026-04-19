@@ -102,12 +102,14 @@
   /* 下拉折疊區塊 */
   .side-dropdown{margin-top:14px;}
   .side-dropdown-toggle{
-    display:flex;align-items:center;gap:8px;
-    padding:8px 12px 6px;cursor:pointer;user-select:none;
-    font-size:.65rem;font-weight:600;letter-spacing:.15em;
-    color:rgba(255,255,255,.55);text-transform:uppercase;
-    transition:color .15s;
+    display:flex;align-items:center;gap:10px;
+    padding:10px 12px;cursor:pointer;user-select:none;
+    font-size:.88rem;font-weight:500;letter-spacing:.04em;
+    color:rgba(255,255,255,.85);
+    border-radius:10px;
+    transition:background .15s,color .15s;
   }
+  .side-dropdown-toggle:hover{background:rgba(255,255,255,.1);color:white;}
   .side-dropdown-toggle:hover{color:rgba(255,255,255,.8);}
   .side-dropdown-arrow{
     font-size:.55rem;transition:transform .2s;display:inline-block;
