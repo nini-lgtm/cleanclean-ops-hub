@@ -99,6 +99,27 @@
     color:rgba(255,255,255,.55);padding:8px 12px 6px;
     text-transform:uppercase;
   }
+  /* 下拉折疊區塊 */
+  .side-dropdown{margin-top:14px;}
+  .side-dropdown-toggle{
+    display:flex;align-items:center;gap:8px;
+    padding:8px 12px 6px;cursor:pointer;user-select:none;
+    font-size:.65rem;font-weight:600;letter-spacing:.15em;
+    color:rgba(255,255,255,.55);text-transform:uppercase;
+    transition:color .15s;
+  }
+  .side-dropdown-toggle:hover{color:rgba(255,255,255,.8);}
+  .side-dropdown-arrow{
+    font-size:.55rem;transition:transform .2s;display:inline-block;
+  }
+  .side-dropdown.open .side-dropdown-arrow{transform:rotate(90deg);}
+  .side-dropdown-items{
+    max-height:0;overflow:hidden;
+    transition:max-height .25s ease;
+  }
+  .side-dropdown.open .side-dropdown-items{
+    max-height:300px;
+  }
   .nav-item{
     display:flex;align-items:center;gap:10px;
     padding:10px 12px;margin:2px 0;border-radius:10px;
@@ -279,24 +300,30 @@
           <span class="nav-icon">📦</span>
           <span>庫存表</span>
         </a>
-        <a class="nav-item" data-dash="sop">
-          <span class="nav-icon">📋</span>
-          <span>SOP 資料庫</span>
-        </a>
-
-        <div class="side-section" style="margin-top:18px;">每日資料</div>
-        <a class="nav-item nav-ext" href="https://docs.google.com/spreadsheets/d/13--BRNaejv2oy1qpRVTBAcxzFS2uC-_u8iNWjNr8xEs/edit" target="_blank" rel="noopener">
-          <span class="nav-icon">📄</span>
-          <span>客戶資料</span>
-        </a>
-        <a class="nav-item nav-ext" href="https://docs.google.com/spreadsheets/d/1wIJADdE0oVjTV8RAYeq0LEvi6o9vOt9awTETp_5aDCw/edit" target="_blank" rel="noopener">
-          <span class="nav-icon">📄</span>
-          <span>門市對帳</span>
-        </a>
-        <a class="nav-item nav-ext" href="https://docs.google.com/spreadsheets/d/1IoOhuqUflmPldZ5B0QJzaIiL_PSzETusQxC1yWLJr6s/edit" target="_blank" rel="noopener">
-          <span class="nav-icon">📄</span>
-          <span>每日出貨分通路表</span>
-        </a>
+        <div class="side-dropdown" id="dailyDropdown">
+          <div class="side-dropdown-toggle" onclick="this.parentElement.classList.toggle('open')">
+            <span class="side-dropdown-arrow">▶</span>
+            <span>每日資料</span>
+          </div>
+          <div class="side-dropdown-items">
+            <a class="nav-item nav-ext" href="https://docs.google.com/spreadsheets/d/13--BRNaejv2oy1qpRVTBAcxzFS2uC-_u8iNWjNr8xEs/edit" target="_blank" rel="noopener">
+              <span class="nav-icon">📄</span>
+              <span>客戶資料</span>
+            </a>
+            <a class="nav-item nav-ext" href="https://docs.google.com/spreadsheets/d/1wIJADdE0oVjTV8RAYeq0LEvi6o9vOt9awTETp_5aDCw/edit" target="_blank" rel="noopener">
+              <span class="nav-icon">📄</span>
+              <span>門市對帳</span>
+            </a>
+            <a class="nav-item nav-ext" href="https://docs.google.com/spreadsheets/d/1IoOhuqUflmPldZ5B0QJzaIiL_PSzETusQxC1yWLJr6s/edit" target="_blank" rel="noopener">
+              <span class="nav-icon">📄</span>
+              <span>每日出貨分通路表</span>
+            </a>
+            <a class="nav-item" data-dash="sop">
+              <span class="nav-icon">📋</span>
+              <span>SOP 資料庫</span>
+            </a>
+          </div>
+        </div>
 
         <div class="side-section" style="margin-top:18px;">外部連結</div>
         <a class="nav-item nav-ext" href="https://nini-lgtm.github.io/cleanclean-inventory/" target="_blank" rel="noopener">
