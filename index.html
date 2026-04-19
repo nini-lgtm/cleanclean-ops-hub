@@ -279,6 +279,24 @@
           <span class="nav-icon">📦</span>
           <span>庫存表</span>
         </a>
+        <a class="nav-item" data-dash="sop">
+          <span class="nav-icon">📋</span>
+          <span>SOP 資料庫</span>
+        </a>
+
+        <div class="side-section" style="margin-top:18px;">每日資料</div>
+        <a class="nav-item nav-ext" href="https://docs.google.com/spreadsheets/d/13--BRNaejv2oy1qpRVTBAcxzFS2uC-_u8iNWjNr8xEs/edit" target="_blank" rel="noopener">
+          <span class="nav-icon">📄</span>
+          <span>客戶資料</span>
+        </a>
+        <a class="nav-item nav-ext" href="https://docs.google.com/spreadsheets/d/1wIJADdE0oVjTV8RAYeq0LEvi6o9vOt9awTETp_5aDCw/edit" target="_blank" rel="noopener">
+          <span class="nav-icon">📄</span>
+          <span>門市對帳</span>
+        </a>
+        <a class="nav-item nav-ext" href="https://docs.google.com/spreadsheets/d/1IoOhuqUflmPldZ5B0QJzaIiL_PSzETusQxC1yWLJr6s/edit" target="_blank" rel="noopener">
+          <span class="nav-icon">📄</span>
+          <span>每日出貨分通路表</span>
+        </a>
 
         <div class="side-section" style="margin-top:18px;">外部連結</div>
         <a class="nav-item nav-ext" href="https://nini-lgtm.github.io/cleanclean-inventory/" target="_blank" rel="noopener">
@@ -342,6 +360,11 @@
               <div class="wc-title">庫存表</div>
               <div class="wc-sub">營運部 · 效期 / 批號</div>
             </div>
+            <div class="wc-card" data-dash="sop">
+              <div class="wc-icon">📋</div>
+              <div class="wc-title">SOP 資料庫</div>
+              <div class="wc-sub">營運部 SOP / 例行工作</div>
+            </div>
           </div>
         </div>
 
@@ -357,6 +380,7 @@
         <iframe class="dash-iframe" data-key="procurement"  title="採購儀表板"></iframe>
         <iframe class="dash-iframe" data-key="channel"      title="實體通路儀表板"></iframe>
         <iframe class="dash-iframe" data-key="operations"   title="營運儀表板"></iframe>
+        <iframe class="dash-iframe" data-key="sop"          title="SOP 資料庫"></iframe>
       </div>
     </main>
   </div>
@@ -368,10 +392,11 @@ const PASSWORD = 'sky42588782';
 
 const DASHBOARDS = {
   operations:  { title:'淨淨總業績',    icon:'📈', url:'https://nini-lgtm.github.io/cleanclean-operations/' },
-  channel:     { title:'實體通路',      icon:'🏪', url:'https://nini-lgtm.github.io/cleanclean-channel/' },
+  channel:     { title:'實體通路',      icon:'🏪', url:'https://nini-lgtm.github.io/jj-quote/' },
   oem:         { title:'OEM ｜ BOSS副業', icon:'🏭', url:'https://nini-lgtm.github.io/cleanclean-oem/' },
   procurement: { title:'採購表',        icon:'🛒', url:'https://nini-lgtm.github.io/cleanclean-procurement/' },
   inventory:   { title:'庫存表 · 營運部', icon:'📦', url:'https://nini-lgtm.github.io/cleanclean-inventory/?view=operations' },
+  sop:         { title:'SOP 資料庫',     icon:'📋', url:'https://www.notion.so/532a66d17a354898bdb034f6a697dbc7?v=bbcbd3b5490e4e59bc780c7bc8e43b05' },
 };
 
 /* ===== 登入 ===== */
