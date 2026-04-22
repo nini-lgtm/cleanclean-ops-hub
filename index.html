@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clean Clean ｜ 營運部專屬</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -491,7 +494,9 @@ function showDashboard(key){
   if (!target.src) {
     loading.classList.remove('hide');
     target.addEventListener('load', () => loading.classList.add('hide'), { once:true });
-    target.src = cfg.url;
+    // 加時間戳避免瀏覽器用舊快取
+    const sep = cfg.url.includes('?') ? '&' : '?';
+    target.src = cfg.url + sep + 't=' + Date.now();
   } else {
     loading.classList.add('hide');
   }
@@ -543,14 +548,16 @@ document.querySelectorAll('.wc-card[data-dash]').forEach(el => {
   el.addEventListener('click', () => showDashboard(el.dataset.dash));
 });
 
-/* 重新整理 */
+/* 重新整理 — 強制用新時間戳重載，避開瀏覽器快取 */
 reloadBtn.addEventListener('click', () => {
   if (!currentKey) return;
   const target = Array.from(iframes).find(f => f.dataset.key === currentKey);
-  if (target) {
+  const cfg = DASHBOARDS[currentKey];
+  if (target && cfg) {
     loading.classList.remove('hide');
     target.addEventListener('load', () => loading.classList.add('hide'), { once:true });
-    target.src = target.src; // 重載
+    const sep = cfg.url.includes('?') ? '&' : '?';
+    target.src = cfg.url + sep + 't=' + Date.now();
   }
 });
 </script>
